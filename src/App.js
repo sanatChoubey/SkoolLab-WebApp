@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{ useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Call } from './Action/call'
 import './App.css';
 
 function App() {
+  const dis = useDispatch()
+  useEffect(()=>{
+    console.log('j')
+    dis(Call())
+  },[])
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div onClick={()=>{
+      console.log('hello')
+      dis(Call())
+    }} className="App">
+      hellos 
     </div>
   );
 }
