@@ -1,10 +1,15 @@
-import React ,{ useState }from 'react';
+import React ,{ useState, useEffect }from 'react';
 import styled from 'styled-components';
 import { Input, Button } from 'semantic-ui-react';
 import Header from '../resuable/header';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css'
+import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+import { useDispatch } from 'react-redux';
+import { call } from 'redux-saga/effects'
+import { AddClassInitiate } from '../Action/AddClass';
+import * as firebase from 'firebase';
+
 const ItemContainer = styled.div`
      width:100%;
      height:86vh;
@@ -23,28 +28,39 @@ const AddWrapper = styled.div`
     justify-content: center;
     display: flex;
     margin-top: 10px;
-
-
 `
 const ErrorPara = styled.p`
 color: red;
 `
 var dataClass = []
 const AddClass =() =>{
-     const [column, setColumn] = useState([{headerName:'Classes in your School',field:'Class', },{headerName:'sex',field:'sex',editable:true}]);
-     const [classData,setclassData] = useState([{Class:'class9A'},{Class:'class9A'}]);
-     const [Class,setClass] = useState([{Class:'class9A'}])
+     const dispatch = useDispatch();
+     const [column, setColumn] = useState([{headerName:'Classes in your School',field:'Class', }]);
+     const [classData,setclassData] = useState([]);
+     const [Class,setClass] = useState('')
      const [errors,setError] = useState('');
-     const changed = () =>{
-          console.log('done')
-     }
+     const db = firebase.database();
+     useEffect(()=>{
+         db.ref('Class').on('value',snapdata=>{
+              try{var ClassArray = Object.values(snapdata.val());
+              ClassArray.sort(memo=>{
+                   return memo.name
+              })
+              setclassData(ClassArray)}
+              catch(e){
+                   console.log(e)
+              }
+
+         })
+     },[])
+
      const listofClassadded = ()=>{
           return(
              <div style= {{margin:'10px'}}>
                     <div
                className="ag-theme-balham"
                style={{
-               height: '500px',
+               height: '350px',
                width: '100%',
                
            }}
@@ -53,11 +69,9 @@ const AddClass =() =>{
                     columnDefs={column}
                     rowData={classData}
                     onRowClicked = {params=>{console.log('hello',params.data)}}
-                    onCellValueChanged={(params)=>{console.log('hello',params.data)}}
-                    onCellEditingStarted={(params)=>{console.log('hellled',params.data)}}>
-                     
-                    </AgGridReact>
+                    />
              </div>
+             
              </div>
           )
      }
@@ -65,24 +79,19 @@ const AddClass =() =>{
                if(Class.length<6){
                     setError('** please use Correct Class Name')
                }else{
-                    dataClass.push({'Class':Class})
-                    console.log(dataClass)
-                    setclassData([...dataClass])
-                    console.log('yoyo',classData)
-               }
-
-          
+                    dispatch(AddClassInitiate({'Class':Class}))
+                    setClass('')
+               }   
      }
      const changeText =(e) => {
-          console.log(e.target.value);
           setClass(e.target.value)
-          
      }
+
      return(
         <MainWrapper>
              <Header title={'ADD Classes'}></Header>
               <ItemContainer>
-                    <Input  onChange ={changeText}placeholder='Add Class example = 9A or 10A or 11Commerce or 12mathscience'/>  
+                    <Input style={{margin:'5px'}} onChange ={changeText} value = {Class} placeholder='Add Class example = 9A or 10A or 11Commerce or 12mathscience'/>  
                     <ErrorPara>{errors}</ErrorPara>
                     <AddWrapper><Button onClick={onSubmit }basic color='blue' content='ADD CLASS' /></AddWrapper>
                     {listofClassadded()}
