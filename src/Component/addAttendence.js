@@ -8,6 +8,7 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import * as firebase from 'firebase/app';
 import { useDispatch } from 'react-redux';
 import { addAttendenceinitial } from '../Action/attendence';
+
 const MainWrapperdiv = styled.div`
     width:100%;
     height:90vh;
@@ -21,8 +22,8 @@ const ButtonWrapper = styled.div`
 const columnData = [
     {headerName:'Sno',field:'Sno'},
     {headerName:'Student Name',field:'studentName'},
-    {headerName:'March',field:'march',editable:true},
-    {headerName:'apiril',field:'apiril',editable:true},
+    {headerName:'March',field:'March',editable:true},
+    {headerName:'apiril',field:'Apiril',editable:true},
     {headerName:'May',field:'May',editable:true},
     {headerName:'June',field:'June',editable:true},
     {headerName:'July',field:'July',editable:true},
@@ -107,7 +108,6 @@ const AddAttendence = () => {
                     selection
                     onChange = {changeDrop}
                     options ={DropData}
-
                 />
                 {TableBool?<div
                      className="ag-theme-balham"

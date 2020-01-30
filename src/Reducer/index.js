@@ -6,6 +6,10 @@ import AddStudent from './AddStudent';
 import AddColumn from './AddColumn';
 import AddSubjects from './AddSubjects';
 import attendenceReducer from './Attendence';
+import examResult from './resultReducer';
+import messageReducer from './MessageReducer';
+import AddPost from './AddPost';
+import yearPlan from './yearPlan';
 
 const rootReducer = combineReducers({
      item: Call,
@@ -14,6 +18,11 @@ const rootReducer = combineReducers({
      toastr: toastrReducer,
      AddColumn,
      AddSubjects,
-     attendence:attendenceReducer
+     attendence:attendenceReducer,
+     examResult,
+     messageReducer,
+     AddPost,
+     yearPlan,
+
 })
 export default rootReducer;

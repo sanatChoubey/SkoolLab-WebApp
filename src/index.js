@@ -9,6 +9,12 @@ import AddStudent from './Component/AddStudent';
 import Addcolumn from './Component/addColumn';
 import AddSubject from './Component/AddSubject';
 import AddAttendence from './Component/addAttendence';
+import AddExamMarks from './Component/AddExamMarks';
+import ClassMsg from './Component/ClassMsg';
+import StudentMsg from './Component/Studentmsg';
+import PostCompo from './Component/postComp';
+import YearlSyllabus from './Component/yearlySyllabus';
+import GoingLesson from './Component/goingLesson';
 
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import * as serviceWorker from './serviceWorker';
@@ -35,7 +41,7 @@ sagaMiddleware.run(rootSaga);
 ReactDOM.render(
     <Provider store ={ stores }> 
      <Router>
-          <div>
+          <>
                <ReduxToastr
                     timeOut={4000}
                     newestOnTop={false}
@@ -71,8 +77,26 @@ ReactDOM.render(
                <Route path = '/addAttendence'>
                     <AddAttendence />
                </Route>
+               <Route path = '/exammarks'>
+                    <AddExamMarks />
+               </Route>
+               <Route path = '/ClassMsg'>
+                    <ClassMsg />
+               </Route>
+               <Route path = '/studentmsg'>
+                    <StudentMsg />
+               </Route>
+               <Route path = '/addpost'>
+                    <PostCompo/>
+               </Route>
+               <Route path = '/plan'>
+                    <YearlSyllabus/>
+               </Route>
+               <Route path = '/ongoing'>
+                    <GoingLesson/>
+               </Route>
                
-          </div>
+          </>
      </Router>
      </Provider>
      , document.getElementById('root'));
